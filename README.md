@@ -20,6 +20,8 @@ Spath is a static C++ library for finding the shortest paths in graphs using var
   - Guarantees finding the shortest path between two vertices in an unweighted graph.
 - **Lee Algorithm**
   - Finding the shortest path between two vertices in a planar unweighted graph.
+- **DAG Algorithm**
+  - Finding the shortest path between two vertices in a directed acyclic graph.
 
 
 ## Time complexity
@@ -34,6 +36,7 @@ Spath is a static C++ library for finding the shortest paths in graphs using var
 | A*                | Pathfinding with heuristics             | O(m*log(n)*complexity(heuristic)) |
 | BFS               | Unweighted graphs                       | O(V + E)                          |
 | Lee Algorithm     | Planar unweighted graphs                | O(V * E)                          |
+| DAG               | Directed acyclic graphs                 | O(V + E)                          |
 
 
 ## Installation
