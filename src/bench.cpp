@@ -173,6 +173,27 @@ BM_bfs(benchmark::State& state) {
     state.counters["Edges"] = num_edges;
 }
 
+static void
+BM_lee(benchmark::State& state) {
+    int num_nodes = state.range(0);
+    int num_edges = state.range(1);
+    int min_weight = state.range(2);
+    int max_weight = state.range(3);
+
+    Graph_ graph = generate_random_graph(num_nodes, num_edges, min_weight, max_weight);
+    Converter converter(graph);
+    int start_node = 0;
+    int end_node = num_nodes - 1;
+
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(lee_algorithm(start_node, end_node, converter));
+    }
+
+    // For report
+    state.counters["Nodes"] = num_nodes;
+    state.counters["Edges"] = num_edges;
+}
+
 BENCHMARK(BM_Dijkstra_high_density)
     ->Args({100, 500, 1, 100})    // 100 vertexes, 500 edges, weight up to 100
     ->Args({1000, 10000, 1, 100}) // 1000 vertexes, 10K edges, weight up to 100
@@ -200,6 +221,13 @@ BENCHMARK(BM_floyd_warshall)
     ->Unit(benchmark::kMillisecond);
 
 BENCHMARK(BM_bfs)
+->Args({100, 500, 1, 1})    // 100 vertexes, 500 edges, unweighted
+->Args({1000, 10000, 1, 1}) // 1000 vertexes, 10K edges, unweighted
+->Args({5000, 50000, 1, 1}) // 5K vertexes, 50K edges, unweighted
+->Args({10000, 400000, 1, 1}) // 10K vertexes, 400K edges, unweighted
+->Unit(benchmark::kMillisecond);
+
+BENCHMARK(BM_lee)
 ->Args({100, 500, 1, 1})    // 100 vertexes, 500 edges, unweighted
 ->Args({1000, 10000, 1, 1}) // 1000 vertexes, 10K edges, unweighted
 ->Args({5000, 50000, 1, 1}) // 5K vertexes, 50K edges, unweighted

@@ -56,4 +56,8 @@ bellman_for_two_vertices(int start, int finish, Converter c);
 
 std::pair<long long, std::vector<int>>
 bfs(int start, int finish, Converter c);
+
+std::vector<std::pair<int, int>>
+lee_algorithm(int start, int finish, Converter converter);
+
 #endif
