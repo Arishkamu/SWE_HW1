@@ -1,9 +1,8 @@
 #include "../include/spath.hpp"
-#include <iostream>
-#include <catch2/catch_test_macros.hpp>
+#include "catch2/catch_test_macros.hpp"
 
-void test_shortest_path(Converter adjacency_list_converter, Converter adjacency_matrix_converter, Converter edge_list_converter, 
-int start, int finish, std::pair<long long, std::vector<int>> expected, 
+void test_shortest_path(Converter adjacency_list_converter, Converter adjacency_matrix_converter, Converter edge_list_converter,
+int start, int finish, std::pair<long long, std::vector<int>> expected,
 std::pair<long long, std::vector<int>> (*algorithm)(int start, int finish , Converter converter)) {
     auto res1 = algorithm(start,finish,adjacency_list_converter);
     auto res2 = algorithm(start,finish,adjacency_matrix_converter);
@@ -13,7 +12,7 @@ std::pair<long long, std::vector<int>> (*algorithm)(int start, int finish , Conv
     REQUIRE( res3 == expected );
 }
 
-void test_floyd_warshall(Converter adjacency_list_converter, Converter adjacency_matrix_converter, Converter edge_list_converter, 
+void test_floyd_warshall(Converter adjacency_list_converter, Converter adjacency_matrix_converter, Converter edge_list_converter,
     std::vector<std::vector<std::pair<long long, std::vector<int>>>>&expected_mtx) {
         auto [next1, dist1] = floyd_warshall(adjacency_list_converter);
         auto [next2, dist2] = floyd_warshall(adjacency_matrix_converter);
@@ -205,6 +204,7 @@ TEST_CASE( "Correctness", "[Requirement 1]" ) {
             REQUIRE( res1 == expected );
             REQUIRE( res2 == expected );
         }
+
         SECTION("Floyd-Warshall") {
             auto [next1, dist1] = floyd_warshall(adjacency_list_converter);
             auto [next2, dist2] = floyd_warshall(adjacency_matrix_converter);
@@ -236,11 +236,18 @@ TEST_CASE( "Correctness", "[Requirement 1]" ) {
             }
         }
 
+        SECTION("BFS") {
+            auto res1 = bfs(0,2,adjacency_list_converter);
+            auto res2 = bfs(0,2,adjacency_matrix_converter);
+
+            REQUIRE( res1 == expected );
+            REQUIRE( res2 == expected );
+        }
 
         for (int i = 0; i < n; i++) {
-            delete adjacency_matrix[i];
+            delete[] adjacency_matrix[i];
         }
-        delete adjacency_matrix;
+        delete[] adjacency_matrix;
     }
 
     SECTION("full graph") {
@@ -305,10 +312,15 @@ TEST_CASE( "Correctness", "[Requirement 1]" ) {
             test_floyd_warshall(adjacency_list_converter, adjacency_matrix_converter, edge_list_converter, expected_mtx);
         }
 
-        for (int i = 0; i < n; i++) {
-            delete adjacency_matrix[i];
+        // Edges have the same weight = 1, everything works correctly
+        SECTION("BFS") {
+            test_shortest_path(adjacency_list_converter, adjacency_matrix_converter, edge_list_converter, 0, 3, expected, bfs);
         }
-        delete adjacency_matrix;
+
+        for (int i = 0; i < n; i++) {
+            delete[] adjacency_matrix[i];
+        }
+        delete[] adjacency_matrix;
 
     }
     SECTION("complex graph") {
@@ -361,6 +373,31 @@ TEST_CASE( "Correctness", "[Requirement 1]" ) {
             test_floyd_warshall(adjacency_list_converter, adjacency_matrix_converter, edge_list_converter, expected_mtx);
         }
 
+        // BFS is used only for unweighted graphs
+        SECTION("BFS") {
+            adjacency_list[0] = {{1,1}, {4, 1}, {3, 1}};
+            adjacency_list[1] = {{2,1}, {0,1}};
+            adjacency_list[2] = {{1,1}, {3,1}};
+            adjacency_list[3] = {{4,1},{0,1},{2,1}};
+            adjacency_list[4] = {{0,1},{3,1}};
+
+            adjacency_matrix[0][1] = adjacency_matrix[1][0] = 1;
+            adjacency_matrix[0][4] = adjacency_matrix[4][0] = 1;
+            adjacency_matrix[0][3] = adjacency_matrix[3][0] = 1;
+            adjacency_matrix[1][2] = adjacency_matrix[2][1] = 1;
+            adjacency_matrix[2][3] = adjacency_matrix[3][2] = 1;
+            adjacency_matrix[3][4] = adjacency_matrix[4][3] = 1;
+
+            std::vector<Edge>edge_list = {{0,1,1},{0,4,1},{0,3,1},{1,2,1},{2,3,1},{3,4,1}};
+
+            Converter adjacency_list_converter = Converter(adjacency_list);
+            Converter adjacency_matrix_converter = Converter(adjacency_matrix, 5);
+            Converter edge_list_converter = Converter(edge_list, false);
+
+            std::pair<long long, std::vector<int>> expected = {1,{0,1}};
+
+            test_shortest_path(adjacency_list_converter, adjacency_matrix_converter, edge_list_converter, 0, 1, expected, bfs);
+        }
 
         for (int i = 0; i < n; i++) {
             delete adjacency_matrix[i];
@@ -413,13 +450,36 @@ TEST_CASE( "Correctness", "[Requirement 1]" ) {
             expected_mtx[2] = {{-1, {}}, {7,{2,1}}, {0,{2}}, {-1,{}}, {-1,{}}};
             expected_mtx[3] = {{20,{3,0}}, {-1, {}}, {-1, {}}, {0,{3}}, {15, {3,4}}};
             expected_mtx[4] = {{10, {4,0}}, {-1, {}}, {-1,{}}, {15,{4,3}}, {0, {4}}};
+
             test_floyd_warshall(adjacency_list_converter, adjacency_matrix_converter, edge_list_converter, expected_mtx);
         }
 
-        for (int i = 0; i < n; i++) {
-            delete adjacency_matrix[i];
+        // BFS is used only for unweighted graphs
+        SECTION("BFS") {
+            adjacency_list[0] = {{4,1}, {3,1}};
+            adjacency_list[1] = {{2,1}};
+            adjacency_list[2] = {{1,1}};
+            adjacency_list[3] = {{0,1},{4,1}};
+            adjacency_list[4] = {{0,1}, {3,1}};
+
+            adjacency_matrix[0][3] = adjacency_matrix[3][0] = 1;
+            adjacency_matrix[0][4] = adjacency_matrix[4][0] = 1;
+            adjacency_matrix[1][2] = adjacency_matrix[2][1] = 1;
+            adjacency_matrix[3][4] = adjacency_matrix[4][3] = 1;
+
+            std::vector<Edge>edge_list = {{0,3,1},{0,4,1},{1,2,1},{3,4,1}};
+            Converter adjacency_list_converter = Converter(adjacency_list);
+            Converter adjacency_matrix_converter = Converter(adjacency_matrix, 5);
+            Converter edge_list_converter = Converter(edge_list, false);
+            std::pair<long long, std::vector<int>> expected = {-1,std::vector<int>()};
+
+            test_shortest_path(adjacency_list_converter, adjacency_matrix_converter, edge_list_converter, 2, 4, expected, bfs);
         }
-        delete adjacency_matrix;
+
+        for (int i = 0; i < n; i++) {
+            delete[] adjacency_matrix[i];
+        }
+        delete[] adjacency_matrix;
     }
 }
 

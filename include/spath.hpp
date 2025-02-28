@@ -10,6 +10,7 @@
 #include <cstring>
 #include <string>
 #include <iostream>
+#include <queue>
 #include "edge.hpp"
 #include "converter.hpp"
 
@@ -19,7 +20,7 @@
 using Graph_ = std::vector<std::vector<std::pair<int, long long>>>; // first = dest, second = weight
 
 /*
-* Edge structure describes an edge in a graph. 
+* Edge structure describes an edge in a graph.
 * source - vertex where an edge starts from
 * dest - vertex where an edge points to
 * weight - number. Our graphs are weighted
@@ -38,13 +39,13 @@ bellman_ford(int start, Converter c);
 std::vector<long long>
 johnson(Graph_ & g);
 
-std::pair<long long, std::vector<int>> 
+std::pair<long long, std::vector<int>>
 astar(int start, int finish, Converter c, long long (*heuristic)(int goal, int other));
 
-std::pair<std::vector<std::vector<int>>, std::vector<std::vector<long long>>> 
+std::pair<std::vector<std::vector<int>>, std::vector<std::vector<long long>>>
 floyd_warshall(Converter c);
 
-std::vector<int> 
+std::vector<int>
 path_from_next(const std::vector<std::vector<int>>& next, int start, int finish);
 
 std::vector<int>
@@ -53,4 +54,6 @@ path_from_parent(const std::vector<int>& parent, int start, int finish);
 std::pair<long long, std::vector<int>>
 bellman_for_two_vertices(int start, int finish, Converter c);
 
+std::pair<long long, std::vector<int>>
+bfs(int start, int finish, Converter c);
 #endif

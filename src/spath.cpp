@@ -44,15 +44,16 @@ dijkstra_high_density(int start, int finish, Converter converter) {
         for (int j = 0; j < graph[vertex].size(); j++) {
             int u = graph[vertex][j].first; // u is adjacent vertex to vertex
             long long weight = graph[vertex][j].second;
-            
+
             if (dist[u] > dist[vertex] + weight) {
                 dist[u] = dist[vertex] + weight;
                 parent[u] = vertex;
             }
         }
     }
-    if (dist[finish] == INF) 
+    if (dist[finish] == INF) {
         return {-1, std::vector<int>()};
+    }
     auto path = path_from_parent(parent, start, finish);
     return {dist[finish], path};
 }
@@ -92,13 +93,13 @@ dijkstra_low_density(int start, int finish, Converter converter) {
             }
         }
     }
-    
-    if (dist[finish] == INF)
+
+    if (dist[finish] == INF) {
         return {-1, std::vector<int>()};
+    }
     auto path = path_from_parent(parent, start, finish);
     return {dist[finish], path};
 }
-
 
 std::pair<std::vector<long long>,std::vector<int>>
 bellman_ford(int start, Converter converter) {
@@ -143,8 +144,9 @@ std::pair<long long, std::vector<int>> bellman_for_two_vertices(int start, int f
 
     // safe, we do only comparisons, no arithmetic operations with INF
     long long INF = std::numeric_limits<long long>::max();
-    if (dist[finish] == INF)
+    if (dist[finish] == INF) {
         return {-1, std::vector<int>()};
+    }
     std::vector<int> path = path_from_parent(parent, start, finish);
     return std::pair<long long, std::vector<int>>{dist[finish], path};
 }
@@ -161,7 +163,7 @@ johnson(Graph_ & graph) {
     int n = graph.size();
 
     /*
-    * fakeVertex is used for creating one temp vertex which is needed 
+    * fakeVertex is used for creating one temp vertex which is needed
     * for calculating potentials
     * After processing temp vertex will be removed
     */
@@ -176,15 +178,15 @@ johnson(Graph_ & graph) {
     potentials.pop_back(); // deleting potential for temp vertex
 
     graph.pop_back();  // deleting temp vertex
-    return potentials; 
+    return potentials;
 }
 
-std::pair<long long, std::vector<int>> 
+std::pair<long long, std::vector<int>>
 astar(int start, int finish, Converter converter, long long (*heuristic)(int goal, int other)) {
     /*
     * Complexity: O(m*log(n)*complexity(heuristic))
     * modified Dijkstra's algorithm for searching path to a one specific point
-    * by using some "good" estimator of distance to it for giving priority instead of pure distance 
+    * by using some "good" estimator of distance to it for giving priority instead of pure distance
     */
     const Graph_ & graph = converter.graph;
     int n = graph.size();
@@ -211,13 +213,14 @@ astar(int start, int finish, Converter converter, long long (*heuristic)(int goa
             }
         }
     }
-    if (dist[finish] == INF) 
+    if (dist[finish] == INF) {
         return {-1, std::vector<int>()};
+    }
     auto path = path_from_parent(parent, start, finish);
     return {dist[finish], path};
 }
 
-std::pair<std::vector<std::vector<int>>, std::vector<std::vector<long long>>> 
+std::pair<std::vector<std::vector<int>>, std::vector<std::vector<long long>>>
 floyd_warshall(Converter converter) {
     /*
     * Complexity: O(n^3)
@@ -255,7 +258,56 @@ floyd_warshall(Converter converter) {
     return {next, dist};
 }
 
-std::vector<int> 
+std::pair<long long, std::vector<int>>
+bfs(int start, int finish, Converter converter) {
+    /*
+    * BFS algorithm is used to find the shortest path between start and finish in an unweighted graph
+    * Time complexity: O(V + E)
+    * Space complexity: O(V)
+    * V - number of vertices
+    * E - number of edges
+    */
+    const Graph_ & graph = converter.graph;
+    std::size_t n = graph.size();
+
+    std::queue<int> queue;
+    queue.push(start);
+
+    long long INF = std::numeric_limits<long long>::max();
+
+    // Distance from the start to all vertices
+    std::vector<long long> dist(n, INF);
+    dist[start] = 0;
+
+    // Vertex parents (for path trace)
+    std::vector<int> parent(n, -1);
+
+    // Loop for BFS
+    while (!queue.empty()) {
+        int from = queue.front();
+        queue.pop();
+        for (auto u: graph[from]) {
+            int to = u.first;
+            // A shorter route has been found
+            if (dist[to] > dist[from] + 1) {
+                dist[to] = dist[from] + 1;
+                parent[to] = from;
+                queue.push(to);
+            }
+        }
+    }
+
+    // The path to the final is not found
+    if (dist[finish] == INF) {
+        return {-1, std::vector<int>()};
+    }
+
+    // Trace the path
+    auto path = path_from_parent(parent, start, finish);
+    return {dist[finish], path};
+}
+
+std::vector<int>
 path_from_next(const std::vector<std::vector<int>>& next, int start, int finish) {
     /*
     * It is applied to 'next' from floyd_warshall algorithm to reconstruct the path
@@ -267,7 +319,7 @@ path_from_next(const std::vector<std::vector<int>>& next, int start, int finish)
         path.push_back(cur);
         cur = next[cur][finish];
     }
-    
+
     path.push_back(finish);
     return path;
 }
