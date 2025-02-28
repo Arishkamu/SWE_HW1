@@ -231,6 +231,10 @@ floyd_warshall(Converter converter) {
     std::vector<std::vector<long long>>dist(graph.size(), std::vector<long long>(graph.size(), INF));
     std::vector<std::vector<int>>next(graph.size(), std::vector<int>(graph.size(), -1));
     for (int i = 0; i < graph.size(); i++) {
+        dist[i][i] = 0;
+        next[i][i] = i;
+    }
+    for (int i = 0; i < graph.size(); i++) {
         for (const auto&[v, weight]: graph[i]) {
             dist[i][v] = weight;
             next[i][v] = v;

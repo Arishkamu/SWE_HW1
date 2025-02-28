@@ -19,7 +19,7 @@ install(TARGETS Spath
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-        CONFIGURATIONS Debug Release
+        CONFIGURATIONS Release
 )
 
 install(FILES include/spath.hpp include/edge.hpp include/converter.hpp DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/spath)
@@ -52,13 +52,40 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(Catch2)
 
+include(FetchContent)
+FetchContent_Declare(
+        jngen
+        GIT_REPOSITORY https://github.com/ifsmirnov/jngen.git
+        GIT_TAG master
+)
+FetchContent_MakeAvailable(jngen)
+
+# Fetch Google Benchmark 
+include(FetchContent)
+FetchContent_Declare(
+        googlebenchmark
+        GIT_REPOSITORY https://github.com/google/benchmark.git
+        GIT_TAG v1.9.1
+)
+set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
+set(BENCHMARK_DOWNLOAD_DEPENDENCIES ON)
+set(CMAKE_BUILD_TYPE Release)
+
+FetchContent_MakeAvailable(googlebenchmark)
+
+add_executable(Bench "${CMAKE_CURRENT_SOURCE_DIR}/src/bench.cpp")
+target_include_directories(Bench PRIVATE ${jngen_SOURCE_DIR}) # For #include "graph.h"
+target_link_libraries(Bench PRIVATE benchmark::benchmark)
+target_link_libraries(Bench PRIVATE Spath)
+
+
+
 add_executable(Tests "${CMAKE_CURRENT_SOURCE_DIR}/src/tests.cpp")
 target_link_libraries(Tests PRIVATE Catch2::Catch2WithMain)
 
-# target_include_directories(Tests 
-#         PRIVATE
-#         "${CMAKE_CURRENT_SOURCE_DIR}/include"
-# )
+target_include_directories(Tests 
+        PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/include"
+)
 
 target_link_libraries(Tests PUBLIC Spath)
-

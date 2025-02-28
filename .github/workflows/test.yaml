@@ -12,14 +12,13 @@ jobs:
       
       - name: Configure Cmake
         run: |
-          git clone https://github.com/catchorg/Catch2.git
           mkdir build
           cd build
           cmake ..
-          cmake --build . --target Spath
+          cmake --build .
           sudo cmake --install .
-          cmake --build . --target Tests
           ./Tests
+          
 
   run_benchmark:
     runs-on: ubuntu-latest
@@ -35,39 +34,20 @@ jobs:
           ./build_repo_structure.sh Architecture.md
           mv Architecture.md docs/
 
-      - name: install our lib
+      - name: install libs
         run: |
           mkdir build
           cd build
           cmake ..
-          cmake --build . --target Spath
+          cmake --build .
           sudo cmake --install .
+
+      - name: run bench and make report
+        run: |
+          cd build
+          ./Bench --benchmark_format=json > bench_result.json
           cd ..
-          rm -rf build
-
-      - name: install google benchmark
-        run: |
-          git clone https://github.com/google/benchmark.git
-          cd benchmark
-          git checkout v1.8.3
-          cmake -E make_directory "build"
-          cmake -E chdir "build" cmake -DBENCHMARK_DOWNLOAD_DEPENDENCIES=on -DCMAKE_BUILD_TYPE=Release ../
-          cmake --build "build" --config Release
-          sudo cmake --build "build" --config Release --target install
-          cd ..
-
-      - name: download jngen
-        run: |
-          git clone https://github.com/ifsmirnov/jngen.git     
-
-      - name: run bench
-        run: |
-          g++ src/bench.cpp -std=c++20 -I jngen/ -isystem benchmark/include -Lbenchmark/build/src -lbenchmark -lpthread -lSpath -o bench
-          ./bench --benchmark_format=json > bench_result.json
-      
-      - name: forming bench report
-        run: |
-          python3 docs/convert.py bench_result.json docs/bench_report.txt
+          python3 docs/convert.py build/bench_result.json docs/bench_report.txt
 
       - name: Push updated version of Architecture
         env:

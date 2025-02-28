@@ -15,7 +15,7 @@ struct Converter {
 
     Graph_ convert(long long** matrix, int size1d);
     
-    std::vector<std::vector<std::pair<int,long long>>> 
+    Graph_
     convert(const std::vector<Edge>& edge_list, bool is_directed);
 
     // Do nothing, input format = output format

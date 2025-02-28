@@ -1,6 +1,6 @@
 #include <benchmark/benchmark.h>
 #include "graph.h"
-#include <spath/spath.hpp>
+#include "../include/spath.hpp"
 #include <vector>
 #include <random>
 #include <memory>
@@ -133,6 +133,25 @@ BM_bellman_ford(benchmark::State& state) {
     state.counters["Edges"] = num_edges;
 }
 
+static void 
+BM_floyd_warshall(benchmark::State& state) {
+    int num_nodes = state.range(0);
+    int num_edges = state.range(1);
+    int min_weight = state.range(2);
+    int max_weight = state.range(3);
+
+    Graph_ graph = generate_random_graph(num_nodes, num_edges, min_weight, max_weight);
+    Converter converter(graph);
+
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(floyd_warshall(converter));
+    }
+
+    // For report
+    state.counters["Nodes"] = num_nodes;
+    state.counters["Edges"] = num_edges;
+}
+
 
 BENCHMARK(BM_Dijkstra_high_density)
     ->Args({100, 500, 1, 100})    // 100 vertexes, 500 edges, weight up to 100
@@ -153,6 +172,11 @@ BENCHMARK(BM_bellman_ford)
     ->Args({1000, 10000, -150, 100}) // 1000 vertexes, 10K edges, weight up to 100
     ->Args({5000, 50000, -150, 100}) // 5K vertexes, 50K edges, weight up to 100
     ->Args({5000, 400000, -150, 100}) // 5K vertexes, 400K edges, weight up to 100
+    ->Unit(benchmark::kMillisecond);
+
+BENCHMARK(BM_floyd_warshall)
+    ->Args({100, 500, -150, 100})    // 100 vertexes, 500 edges, weight up to 100
+    ->Args({1000, 1000, -150, 100}) // 1000 vertexes, 1K edges, weight up to 100
     ->Unit(benchmark::kMillisecond);
 
 int main(int argc, char** argv)
