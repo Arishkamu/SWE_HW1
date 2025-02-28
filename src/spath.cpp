@@ -480,3 +480,89 @@ std::vector<std::pair<int, int>> lee_algorithm(int start, int finish,
   reverse(path.begin(), path.end());
   return path;
 }
+
+std::pair<double, std::vector<int>>
+karp_algorithm(Converter c) {
+    /*
+     * algorithm used to find minimal average wight cycle
+     * Complexity worst case: O(VE)
+     * Return pair -- mean wight and list of vertex numbers - cycle
+     * If cycle doesn't exist return pait(INF, empty vector)
+     */
+
+    double INF = std::numeric_limits<double>::max();
+    double INF_MIN = std::numeric_limits<double>::min();
+
+    Graph_ g = c.graph;
+    auto n = g.size();
+
+    // dp[v][k] stores the minimum weight to reach vertex v using exactly k edges
+    std::vector<std::vector<double>> dp(n, std::vector<double>(n + 1, INF));  // DP table
+    std::vector<std::vector<int>> parent(n, std::vector<int>(n + 1, -1));  // To track predecessors
+
+    // Initialize the DP table for step 0
+    for (int i = 0; i < n; i++) {
+        dp[i][0] = 0;
+    }
+
+    //Convert graph to edges list
+    std::vector<Edge> edges;
+    for (int i = 0; i < n; ++i) {
+        for (auto [dest, wight] : g[i]) {
+            // source, dest; weight;
+            edges.push_back({i, dest, wight});
+        }
+    }
+
+    // Update DP table
+    for (int k = 1; k <= n; k++) {
+        for (const auto &edge : edges) {
+            if (dp[edge.source][k - 1] < INF) {
+                double newWeight = dp[edge.source][k - 1] + edge.weight;
+                if (newWeight < dp[edge.dest][k]) {
+                    dp[edge.dest][k] = newWeight;
+                    parent[edge.dest][k] = edge.source;  // Store the previous vertex
+                }
+            }
+        }
+    }
+
+    // Find the minimum mean weight cycle
+    double minMean = INF;
+    int cycleVertex = -1;
+    for (int v = 0; v < n; v++) {
+        double maxMean = INF_MIN;
+        for (int k = 0; k < n; k++) {
+            if (dp[v][k] < INF) {
+                double mean = (dp[v][n] - dp[v][k]) / (n - k);
+                if (mean > maxMean) {
+                    maxMean = mean;
+                }
+            }
+        }
+        if (maxMean < minMean) {
+            minMean = maxMean;
+            cycleVertex = v;
+        }
+    }
+
+    std::pair<double, std::vector<int>> result = {INF, {}};
+    if (cycleVertex == -1) {
+        return result;  // No cycle found
+    }
+
+    // Reconstruct the cycle path
+    std::vector<int> cycle;
+    cycle.push_back(cycleVertex);  // Start the cycle
+
+    // Follow the cycle until we reach the starting vertex again
+    int current = parent[cycleVertex][n];
+    while (current != cycleVertex && current != -1) {
+        cycle.push_back(current);
+        current = parent[current][n];
+    }
+
+    // Reverse the path to get the correct order
+    reverse(cycle.begin(), cycle.end());
+    return {minMean, cycle};
+}

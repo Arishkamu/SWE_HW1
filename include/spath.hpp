@@ -65,4 +65,8 @@ std::vector<std::pair<int, int>> lee_algorithm(int start, int finish,
 
 std::pair<long long, std::vector<int>>
 naive_shortest_path(int start, int finish, Converter c);
+
+std::pair<double, std::vector<int>>
+karp_algorithm(Converter c);
+
 #endif
