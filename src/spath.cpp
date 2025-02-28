@@ -270,9 +270,8 @@ floyd_warshall(Converter converter) {
 std::pair<long long, std::vector<int>> bfs(int start, int finish,
                                            Converter converter) {
   /*
-   * BFS algorithm is used to find the shortest path between start and finish in
-   * an unweighted graph Time complexity: O(V + E) Space complexity: O(V) V -
-   * number of vertices E - number of edges
+   * algorithm is used to find the shortest path between start and finish in an
+   * unweighted graph V - number of vertices E - number of edges
    */
   const Graph_ &graph = converter.graph;
   std::size_t n = graph.size();
@@ -427,5 +426,57 @@ std::vector<int> path_from_next(const std::vector<std::vector<int>> &next,
   }
 
   path.push_back(finish);
+  return path;
+}
+
+std::vector<std::pair<int, int>> lee_algorithm(int start, int finish,
+                                               Converter converter) {
+  /* Algorithm for finding the shortest path between two vertices in a planar
+   * unweighted graph. start -- start vertex of path finish -- end vertex of
+   * path
+   */
+  const Graph_ &graph = converter.graph;
+  int n = graph.size();
+
+  if (start < 0 || start >= n || finish < 0 || finish >= n) {
+    return {}; // uncorrect vertex
+  }
+
+  std::queue<int> q;
+  q.push(start);
+
+  std::vector<int> dist(n, -1);
+  dist[start] = 0;
+
+  std::vector<int> prev(n, -1);
+
+  while (!q.empty()) {
+    int u = q.front();
+    q.pop();
+
+    if (u == finish) {
+      break;
+    }
+
+    for (const auto &[v, weight] : graph[u]) {
+      // We ignore the weight, since Lee's algorithm works for unit weights.
+      if (dist[v] == -1) {
+        dist[v] = dist[u] + 1;
+        prev[v] = u;
+        q.push(v);
+      }
+    }
+  }
+
+  if (dist[finish] == -1) {
+    return {};
+  }
+
+  std::vector<std::pair<int, int>> path;
+  for (int v = finish; v != -1; v = prev[v]) {
+    path.push_back({v, dist[v]});
+  }
+
+  reverse(path.begin(), path.end());
   return path;
 }

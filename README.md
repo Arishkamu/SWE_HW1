@@ -18,18 +18,25 @@ Spath is a static C++ library for finding the shortest paths in graphs using var
   - Optimized for pathfinding with heuristics in weighted graphs.
 - **BFS Algorithm**
   - Guarantees finding the shortest path between two vertices in an unweighted graph.
+- **Lee Algorithm**
+  - Finding the shortest path between two vertices in a planar unweighted graph.
+- **DAG Algorithm**
+  - Finding the shortest path between two vertices in a directed acyclic graph.
+
 
 ## Time complexity
 
-| Algorithm          | Best Use Case                         | Time Complexity            |
-|--------------------|---------------------------------------|----------------------------|
-| Dijkstra (sparse)  | Sparse graphs, non-negative weights   | O((V + E) * log V)         |
-| Dijkstra (dense)   | Dense graphs, non-negative weights    | O(V^2)                     |
-| Ford-Bellman       | Graphs with negative weights          | O(V * E)                   |
-| Johnson            | Sparse graphs, all-pairs shortest paths | O(V^2 * log V + V * E) |
-| Floyd-Warshall     | Dense graphs, all-pairs shortest paths | O(V^3)                 |
-| A*                 | Pathfinding with heuristics           | O(m*log(n)*complexity(heuristic))       |
-| BFS                | Unweighted graphs           |  O(V + E) |
+| Algorithm         | Best Use Case                           | Time Complexity                   |
+|-------------------|-----------------------------------------|-----------------------------------|
+| Dijkstra (sparse) | Sparse graphs, non-negative weights     | O((V + E) * log V)                |
+| Dijkstra (dense)  | Dense graphs, non-negative weights      | O(V^2)                            |
+| Ford-Bellman      | Graphs with negative weights            | O(V * E)                          |
+| Johnson           | Sparse graphs, all-pairs shortest paths | O(V^2 * log V + V * E)            |
+| Floyd-Warshall    | Dense graphs, all-pairs shortest paths  | O(V^3)                            |
+| A*                | Pathfinding with heuristics             | O(m*log(n)*complexity(heuristic)) |
+| BFS               | Unweighted graphs                       | O(V + E)                          |
+| Lee Algorithm     | Planar unweighted graphs                | O(V * E)                          |
+| DAG               | Directed acyclic graphs                 | O(V + E)                          |
 
 
 ## Installation
