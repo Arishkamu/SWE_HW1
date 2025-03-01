@@ -71,6 +71,29 @@ Graph_ generate_random_graph(int num_nodes, int num_edges, int min_weight,
   return graph;
 }
 
+Graph_ generate_random_DAG(int num_nodes, int num_edges, int min_weight, int max_weight) {
+    Graph_ graph(num_nodes);
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> weight_dist(min_weight, max_weight);
+    
+    std::vector<int> order(num_nodes);
+    std::iota(order.begin(), order.end(), 0);
+    std::shuffle(order.begin(), order.end(), gen);
+
+    for (int i = 0; i < num_edges; ++i) {
+        int u = order[rand() % num_nodes];
+        int v = order[rand() % num_nodes];
+        if (u < v) { // Ensure acyclic graph
+            int weight = weight_dist(gen);
+            graph[u].push_back({v, weight});
+        }
+    }
+
+    return graph;
+}
+
 static void BM_Dijkstra_high_density(benchmark::State &state) {
   int num_nodes = state.range(0);
   int num_edges = state.range(1);
@@ -218,6 +241,43 @@ BM_lee(benchmark::State& state) {
     state.counters["Edges"] = num_edges;
 }
 
+static void BM_dag_shortest_paths(benchmark::State& state) {
+    int num_nodes = state.range(0);
+    int num_edges = state.range(1);
+    int min_weight = state.range(2);
+    int max_weight = state.range(3);
+
+    Graph_ graph = generate_random_DAG(num_nodes, num_edges, min_weight, max_weight);
+    Converter converter(graph);
+    int start_node = 0;
+
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(dag_shortest_paths(start_node, converter));
+    }
+
+    state.counters["Nodes"] = num_nodes;
+    state.counters["Edges"] = num_edges;
+}
+
+static void BM_dag_shortest_path(benchmark::State& state) {
+    int num_nodes = state.range(0);
+    int num_edges = state.range(1);
+    int min_weight = state.range(2);
+    int max_weight = state.range(3);
+
+    Graph_ graph = generate_random_DAG(num_nodes, num_edges, min_weight, max_weight);
+    Converter converter(graph);
+    int start_node = 0;
+    int end_node = num_nodes - 1;
+
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(dag_shortest_path(start_node, end_node, converter));
+    }
+
+    state.counters["Nodes"] = num_nodes;
+    state.counters["Edges"] = num_edges;
+}
+
 BENCHMARK(BM_Dijkstra_high_density)
     ->Args({100, 500, 1, 100})    // 100 vertexes, 500 edges, weight up to 100
     ->Args({1000, 10000, 1, 100}) // 1000 vertexes, 10K edges, weight up to 100
@@ -266,6 +326,20 @@ BENCHMARK(BM_naive_shortest_path)
     ->Args({5, 10, 1, 10})  // 5 nodes, 10 edges, weight from 1 to 10
     ->Args({7, 15, 1, 10})  // 7 nodes, 15 edges, weight from 1 to 10
     ->Args({10, 20, 1, 10}) // 10 nodes, 20 edges, weight from 1 to 10
+    ->Unit(benchmark::kMillisecond);
+
+BENCHMARK(BM_dag_shortest_paths)
+    ->Args({100, 500, 1, 100})
+    ->Args({1000, 10000, 1, 100})
+    ->Args({5000, 50000, 1, 100})
+    ->Args({10000, 400000, 1, 100})
+    ->Unit(benchmark::kMillisecond);
+
+BENCHMARK(BM_dag_shortest_path)
+    ->Args({100, 500, 1, 100})
+    ->Args({1000, 10000, 1, 100})
+    ->Args({5000, 50000, 1, 100})
+    ->Args({10000, 400000, 1, 100})
     ->Unit(benchmark::kMillisecond);
 
 int main(int argc, char** argv)
