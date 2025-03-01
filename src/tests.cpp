@@ -15,6 +15,17 @@ void test_shortest_path(Converter adjacency_list_converter,
   REQUIRE(res3 == expected);
 }
 
+void test_dag_shortest_path(Converter adjacency_list_converter, Converter adjacency_matrix_converter, Converter edge_list_converter,
+                            int start, int finish, std::pair<long long, std::vector<int>> expected,
+                            std::pair<long long, std::vector<int>> (*algorithm)(int start, int finish , Converter converter)) {
+    auto res1 = algorithm(start, finish, adjacency_list_converter);
+    auto res2 = algorithm(start, finish, adjacency_matrix_converter);
+    auto res3 = algorithm(start, finish, edge_list_converter);
+    REQUIRE(res1 == expected);
+    REQUIRE(res2 == expected);
+    REQUIRE(res3 == expected);
+}
+
 void test_floyd_warshall(
     Converter adjacency_list_converter, Converter adjacency_matrix_converter,
     Converter edge_list_converter,
@@ -552,4 +563,103 @@ TEST_CASE("Correctness", "[Requirement 1]") {
     }
     delete[] adjacency_matrix;
   }
+}
+
+TEST_CASE("DAG Shortest Paths", "[DAG]") {
+    SECTION("Simple DAG") {
+        Graph_ adjacency_list = {
+            {{1, 10}, {2, 20}},
+            {{3, 30}},
+            {{3, 5}},
+            {{4, 7}},
+            {}
+        };
+
+        long long INF = std::numeric_limits<long long>::max();
+        long long** adjacency_matrix = new long long*[5];
+        for (int i = 0; i < 5; i++) {
+            adjacency_matrix[i] = new long long[5];
+            std::fill(adjacency_matrix[i], adjacency_matrix[i] + 5, INF);
+        }
+
+        adjacency_matrix[0][1] = 10;
+        adjacency_matrix[0][2] = 20;
+        adjacency_matrix[1][3] = 30;
+        adjacency_matrix[2][3] = 5;
+        adjacency_matrix[3][4] = 7;
+
+        std::vector<Edge> edge_list = {
+            {0, 1, 10}, {0, 2, 20}, {1, 3, 30},
+            {2, 3, 5}, {3, 4, 7}
+        };
+
+        Converter adjacency_list_converter(adjacency_list);
+        Converter adjacency_matrix_converter(adjacency_matrix, 5);
+        Converter edge_list_converter(edge_list, true);
+
+        std::pair<long long, std::vector<int>> expected = {22, {0, 2, 3, 4}};
+        
+        test_dag_shortest_path(adjacency_list_converter, adjacency_matrix_converter, edge_list_converter, 0, 4, expected, dag_shortest_path);
+
+        for (int i = 0; i < 5; i++) {
+            delete[] adjacency_matrix[i];
+        }
+        delete[] adjacency_matrix;
+    }
+
+    SECTION("Single node DAG") {
+        Graph_ adjacency_list = {{}};
+
+        long long** adjacency_matrix = new long long*[1];
+        adjacency_matrix[0] = new long long[1]{0};
+
+        std::vector<Edge> edge_list = {};
+
+        Converter adjacency_list_converter(adjacency_list);
+        Converter adjacency_matrix_converter(adjacency_matrix, 1);
+        Converter edge_list_converter(edge_list, true);
+
+        std::pair<long long, std::vector<int>> expected = {0, {0}};
+
+        test_dag_shortest_path(adjacency_list_converter, adjacency_matrix_converter, edge_list_converter, 0, 0, expected, dag_shortest_path);
+
+        delete[] adjacency_matrix[0];
+        delete[] adjacency_matrix;
+    }
+
+    SECTION("Disconnected DAG") {
+        Graph_ adjacency_list = {
+            {{1, 5}},
+            {},
+            {{3, 2}},
+            {}
+        };
+
+        long long INF = std::numeric_limits<long long>::max();
+        long long** adjacency_matrix = new long long*[4];
+        for (int i = 0; i < 4; i++) {
+            adjacency_matrix[i] = new long long[4];
+            std::fill(adjacency_matrix[i], adjacency_matrix[i] + 4, INF);
+        }
+
+        adjacency_matrix[0][1] = 5;
+        adjacency_matrix[2][3] = 2;
+
+        std::vector<Edge> edge_list = {
+            {0, 1, 5}, {2, 3, 2}
+        };
+
+        Converter adjacency_list_converter(adjacency_list);
+        Converter adjacency_matrix_converter(adjacency_matrix, 4);
+        Converter edge_list_converter(edge_list, true);
+
+        std::pair<long long, std::vector<int>> expected = {-1, {}};
+
+        test_dag_shortest_path(adjacency_list_converter, adjacency_matrix_converter, edge_list_converter, 0, 3, expected, dag_shortest_path);
+
+        for (int i = 0; i < 4; i++) {
+            delete[] adjacency_matrix[i];
+        }
+        delete[] adjacency_matrix;
+    }
 }
