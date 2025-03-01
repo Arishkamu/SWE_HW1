@@ -6,35 +6,35 @@ Nodes: 100.0
 Edges: 500.0
 CPU Time: 0.02 ms
 Real Time: 0.02 ms
-Allocations per Iteration: 220.31
-Max Used (Bytes / MBytes): 489985 / 0.489985
+Allocations per Iteration: 219.75
+Max Used (Bytes / MBytes): 489153 / 0.489153
 --------------------------------------------------
 
 Algorithm: BM_Dijkstra_high_density/1000/10000/1/100
 Nodes: 1000.0
 Edges: 10000.0
-CPU Time: 1.53 ms
-Real Time: 1.53 ms
-Allocations per Iteration: 2437.88
-Max Used (Bytes / MBytes): 8805389 / 8.805389
+CPU Time: 1.54 ms
+Real Time: 1.54 ms
+Allocations per Iteration: 2436.69
+Max Used (Bytes / MBytes): 8783001 / 8.783001
 --------------------------------------------------
 
 Algorithm: BM_Dijkstra_high_density/5000/50000/1/100
 Nodes: 5000.0
 Edges: 50000.0
-CPU Time: 35.98 ms
-Real Time: 35.98 ms
-Allocations per Iteration: 12113.94
-Max Used (Bytes / MBytes): 44486589 / 44.486589
+CPU Time: 35.92 ms
+Real Time: 35.92 ms
+Allocations per Iteration: 12113.62
+Max Used (Bytes / MBytes): 44510365 / 44.510365
 --------------------------------------------------
 
 Algorithm: BM_Dijkstra_high_density/10000/400000/1/100
 Nodes: 10000.0
 Edges: 400000.0
-CPU Time: 150.26 ms
-Real Time: 150.27 ms
-Allocations per Iteration: 119795.6
-Max Used (Bytes / MBytes): 185563525 / 185.563525
+CPU Time: 149.9 ms
+Real Time: 149.91 ms
+Allocations per Iteration: 147253.75
+Max Used (Bytes / MBytes): 172393737 / 172.393737
 --------------------------------------------------
 
 Algorithm: BM_Dijkstra_low_density/100/500/1/100
@@ -42,8 +42,8 @@ Nodes: 100.0
 Edges: 500.0
 CPU Time: 0.02 ms
 Real Time: 0.02 ms
-Allocations per Iteration: 403.62
-Max Used (Bytes / MBytes): 628552 / 0.628552
+Allocations per Iteration: 408.56
+Max Used (Bytes / MBytes): 634848 / 0.634848
 --------------------------------------------------
 
 Algorithm: BM_Dijkstra_low_density/1000/10000/1/100
@@ -51,62 +51,62 @@ Nodes: 1000.0
 Edges: 10000.0
 CPU Time: 0.54 ms
 Real Time: 0.54 ms
-Allocations per Iteration: 4945.19
-Max Used (Bytes / MBytes): 10707484 / 10.707484
+Allocations per Iteration: 4934.25
+Max Used (Bytes / MBytes): 10685480 / 10.68548
 --------------------------------------------------
 
 Algorithm: BM_Dijkstra_low_density/5000/50000/1/100
 Nodes: 5000.0
 Edges: 50000.0
-CPU Time: 3.48 ms
-Real Time: 3.48 ms
-Allocations per Iteration: 24827.81
-Max Used (Bytes / MBytes): 54371904 / 54.371904
+CPU Time: 3.51 ms
+Real Time: 3.51 ms
+Allocations per Iteration: 24876.75
+Max Used (Bytes / MBytes): 54403720 / 54.40372
 --------------------------------------------------
 
 Algorithm: BM_Dijkstra_low_density/10000/400000/1/100
 Nodes: 10000.0
 Edges: 400000.0
-CPU Time: 14.03 ms
-Real Time: 14.03 ms
-Allocations per Iteration: 80643.5
-Max Used (Bytes / MBytes): 358368448 / 358.368448
+CPU Time: 13.83 ms
+Real Time: 13.84 ms
+Allocations per Iteration: 80514.88
+Max Used (Bytes / MBytes): 358182588 / 358.182588
 --------------------------------------------------
 
 Algorithm: BM_bellman_ford/100/500/-150/100
 Nodes: 100.0
 Edges: 500.0
-CPU Time: 0.11 ms
-Real Time: 0.11 ms
-Allocations per Iteration: 215.44
-Max Used (Bytes / MBytes): 506548 / 0.506548
+CPU Time: 0.12 ms
+Real Time: 0.12 ms
+Allocations per Iteration: 216.5
+Max Used (Bytes / MBytes): 510476 / 0.510476
 --------------------------------------------------
 
 Algorithm: BM_bellman_ford/1000/10000/-150/100
 Nodes: 1000.0
 Edges: 10000.0
-CPU Time: 27.55 ms
-Real Time: 27.55 ms
-Allocations per Iteration: 2432.56
-Max Used (Bytes / MBytes): 8997980 / 8.99798
+CPU Time: 29.11 ms
+Real Time: 29.11 ms
+Allocations per Iteration: 2432.81
+Max Used (Bytes / MBytes): 8973616 / 8.973616
 --------------------------------------------------
 
 Algorithm: BM_bellman_ford/5000/50000/-150/100
 Nodes: 5000.0
 Edges: 50000.0
-CPU Time: 1167.71 ms
-Real Time: 1167.74 ms
-Allocations per Iteration: 118673.0
-Max Used (Bytes / MBytes): 17981908 / 17.981908
+CPU Time: 1160.43 ms
+Real Time: 1160.46 ms
+Allocations per Iteration: 118681.0
+Max Used (Bytes / MBytes): 17903652 / 17.903652
 --------------------------------------------------
 
 Algorithm: BM_bellman_ford/5000/400000/-150/100
 Nodes: 5000.0
 Edges: 400000.0
-CPU Time: 4173.86 ms
-Real Time: 4173.98 ms
-Allocations per Iteration: 484716.0
-Max Used (Bytes / MBytes): 131233356 / 131.233356
+CPU Time: 4201.96 ms
+Real Time: 4202.13 ms
+Allocations per Iteration: 484681.0
+Max Used (Bytes / MBytes): 131242760 / 131.24276
 --------------------------------------------------
 
 Algorithm: BM_floyd_warshall/100/500/-150/100
@@ -114,17 +114,17 @@ Nodes: 100.0
 Edges: 500.0
 CPU Time: 0.96 ms
 Real Time: 0.96 ms
-Allocations per Iteration: 618.81
-Max Used (Bytes / MBytes): 4484718 / 4.484718
+Allocations per Iteration: 618.5
+Max Used (Bytes / MBytes): 4480910 / 4.48091
 --------------------------------------------------
 
 Algorithm: BM_floyd_warshall/1000/1000/-150/100
 Nodes: 1000.0
 Edges: 1000.0
-CPU Time: 60.82 ms
-Real Time: 60.83 ms
-Allocations per Iteration: 6116.0
-Max Used (Bytes / MBytes): 218159806 / 218.159806
+CPU Time: 69.89 ms
+Real Time: 69.89 ms
+Allocations per Iteration: 6004.8
+Max Used (Bytes / MBytes): 242304326 / 242.304326
 --------------------------------------------------
 
 Algorithm: BM_bfs/100/500/1/1
@@ -132,8 +132,8 @@ Nodes: 100.0
 Edges: 500.0
 CPU Time: 0.0 ms
 Real Time: 0.0 ms
-Allocations per Iteration: 219.5
-Max Used (Bytes / MBytes): 493716 / 0.493716
+Allocations per Iteration: 219.56
+Max Used (Bytes / MBytes): 498308 / 0.498308
 --------------------------------------------------
 
 Algorithm: BM_bfs/1000/10000/1/1
@@ -141,26 +141,26 @@ Nodes: 1000.0
 Edges: 10000.0
 CPU Time: 0.08 ms
 Real Time: 0.08 ms
-Allocations per Iteration: 2446.62
-Max Used (Bytes / MBytes): 8836948 / 8.836948
+Allocations per Iteration: 2445.31
+Max Used (Bytes / MBytes): 8841156 / 8.841156
 --------------------------------------------------
 
 Algorithm: BM_bfs/5000/50000/1/1
 Nodes: 5000.0
 Edges: 50000.0
-CPU Time: 0.54 ms
-Real Time: 0.54 ms
-Allocations per Iteration: 12158.06
-Max Used (Bytes / MBytes): 44921272 / 44.921272
+CPU Time: 0.53 ms
+Real Time: 0.53 ms
+Allocations per Iteration: 12155.06
+Max Used (Bytes / MBytes): 44936036 / 44.936036
 --------------------------------------------------
 
 Algorithm: BM_bfs/10000/400000/1/1
 Nodes: 10000.0
 Edges: 400000.0
-CPU Time: 2.84 ms
-Real Time: 2.84 ms
-Allocations per Iteration: 44401.31
-Max Used (Bytes / MBytes): 330905824 / 330.905824
+CPU Time: 2.97 ms
+Real Time: 2.97 ms
+Allocations per Iteration: 44405.44
+Max Used (Bytes / MBytes): 331280968 / 331.280968
 --------------------------------------------------
 
 Algorithm: BM_lee/100/500/1/1
@@ -168,35 +168,35 @@ Nodes: 100.0
 Edges: 500.0
 CPU Time: 0.0 ms
 Real Time: 0.0 ms
-Allocations per Iteration: 218.94
-Max Used (Bytes / MBytes): 489516 / 0.489516
+Allocations per Iteration: 218.88
+Max Used (Bytes / MBytes): 492000 / 0.492
 --------------------------------------------------
 
 Algorithm: BM_lee/1000/10000/1/1
 Nodes: 1000.0
 Edges: 10000.0
-CPU Time: 0.06 ms
-Real Time: 0.06 ms
-Allocations per Iteration: 2441.56
-Max Used (Bytes / MBytes): 8757184 / 8.757184
+CPU Time: 0.05 ms
+Real Time: 0.05 ms
+Allocations per Iteration: 2444.88
+Max Used (Bytes / MBytes): 8782852 / 8.782852
 --------------------------------------------------
 
 Algorithm: BM_lee/5000/50000/1/1
 Nodes: 5000.0
 Edges: 50000.0
-CPU Time: 0.34 ms
-Real Time: 0.34 ms
-Allocations per Iteration: 12158.56
-Max Used (Bytes / MBytes): 44528920 / 44.52892
+CPU Time: 0.3 ms
+Real Time: 0.3 ms
+Allocations per Iteration: 12156.5
+Max Used (Bytes / MBytes): 44628008 / 44.628008
 --------------------------------------------------
 
 Algorithm: BM_lee/10000/400000/1/1
 Nodes: 10000.0
 Edges: 400000.0
-CPU Time: 1.8 ms
-Real Time: 1.8 ms
-Allocations per Iteration: 44397.62
-Max Used (Bytes / MBytes): 330374860 / 330.37486
+CPU Time: 2.27 ms
+Real Time: 2.27 ms
+Allocations per Iteration: 44400.0
+Max Used (Bytes / MBytes): 330453656 / 330.453656
 --------------------------------------------------
 
 Algorithm: BM_naive_shortest_path/5/10/1/10
@@ -204,26 +204,26 @@ Nodes: 5.0
 Edges: 10.0
 CPU Time: 0.0 ms
 Real Time: 0.0 ms
-Allocations per Iteration: 32.06
-Max Used (Bytes / MBytes): 14107 / 0.014107
+Allocations per Iteration: 31.94
+Max Used (Bytes / MBytes): 14255 / 0.014255
 --------------------------------------------------
 
 Algorithm: BM_naive_shortest_path/7/15/1/10
 Nodes: 7.0
 Edges: 15.0
-CPU Time: 0.01 ms
-Real Time: 0.01 ms
-Allocations per Iteration: 99.31
-Max Used (Bytes / MBytes): 28947 / 0.028947
+CPU Time: 0.0 ms
+Real Time: 0.0 ms
+Allocations per Iteration: 98.38
+Max Used (Bytes / MBytes): 28803 / 0.028803
 --------------------------------------------------
 
 Algorithm: BM_naive_shortest_path/10/20/1/10
 Nodes: 10.0
 Edges: 20.0
-CPU Time: 0.88 ms
-Real Time: 0.88 ms
-Allocations per Iteration: 846.38
-Max Used (Bytes / MBytes): 177511 / 0.177511
+CPU Time: 0.98 ms
+Real Time: 0.98 ms
+Allocations per Iteration: 844.25
+Max Used (Bytes / MBytes): 177219 / 0.177219
 --------------------------------------------------
 
 Algorithm: BM_dag_shortest_paths/100/500/1/100
@@ -231,8 +231,8 @@ Nodes: 100.0
 Edges: 500.0
 CPU Time: 0.0 ms
 Real Time: 0.0 ms
-Allocations per Iteration: 113.69
-Max Used (Bytes / MBytes): 195206 / 0.195206
+Allocations per Iteration: 112.38
+Max Used (Bytes / MBytes): 193174 / 0.193174
 --------------------------------------------------
 
 Algorithm: BM_dag_shortest_paths/1000/10000/1/100
@@ -240,26 +240,26 @@ Nodes: 1000.0
 Edges: 10000.0
 CPU Time: 0.05 ms
 Real Time: 0.05 ms
-Allocations per Iteration: 1173.69
-Max Used (Bytes / MBytes): 2631062 / 2.631062
+Allocations per Iteration: 1184.44
+Max Used (Bytes / MBytes): 2648646 / 2.648646
 --------------------------------------------------
 
 Algorithm: BM_dag_shortest_paths/5000/50000/1/100
 Nodes: 5000.0
 Edges: 50000.0
-CPU Time: 0.42 ms
-Real Time: 0.42 ms
-Allocations per Iteration: 5830.81
-Max Used (Bytes / MBytes): 13590534 / 13.590534
+CPU Time: 0.45 ms
+Real Time: 0.45 ms
+Allocations per Iteration: 5799.81
+Max Used (Bytes / MBytes): 13562918 / 13.562918
 --------------------------------------------------
 
 Algorithm: BM_dag_shortest_paths/10000/400000/1/100
 Nodes: 10000.0
 Edges: 400000.0
-CPU Time: 1.85 ms
-Real Time: 1.85 ms
-Allocations per Iteration: 13737.75
-Max Used (Bytes / MBytes): 75012934 / 75.012934
+CPU Time: 1.81 ms
+Real Time: 1.81 ms
+Allocations per Iteration: 13750.19
+Max Used (Bytes / MBytes): 74949894 / 74.949894
 --------------------------------------------------
 
 Algorithm: BM_dag_shortest_path/100/500/1/100
@@ -267,8 +267,8 @@ Nodes: 100.0
 Edges: 500.0
 CPU Time: 0.01 ms
 Real Time: 0.01 ms
-Allocations per Iteration: 199.44
-Max Used (Bytes / MBytes): 301669 / 0.301669
+Allocations per Iteration: 189.06
+Max Used (Bytes / MBytes): 299493 / 0.299493
 --------------------------------------------------
 
 Algorithm: BM_dag_shortest_path/1000/10000/1/100
@@ -276,25 +276,25 @@ Nodes: 1000.0
 Edges: 10000.0
 CPU Time: 0.1 ms
 Real Time: 0.1 ms
-Allocations per Iteration: 2075.69
-Max Used (Bytes / MBytes): 4254053 / 4.254053
+Allocations per Iteration: 2098.81
+Max Used (Bytes / MBytes): 4310277 / 4.310277
 --------------------------------------------------
 
 Algorithm: BM_dag_shortest_path/5000/50000/1/100
 Nodes: 5000.0
 Edges: 50000.0
-CPU Time: 0.64 ms
-Real Time: 0.64 ms
-Allocations per Iteration: 10271.88
-Max Used (Bytes / MBytes): 21951829 / 21.951829
+CPU Time: 0.68 ms
+Real Time: 0.68 ms
+Allocations per Iteration: 10261.56
+Max Used (Bytes / MBytes): 21833317 / 21.833317
 --------------------------------------------------
 
 Algorithm: BM_dag_shortest_path/10000/400000/1/100
 Nodes: 10000.0
 Edges: 400000.0
-CPU Time: 2.27 ms
-Real Time: 2.27 ms
-Allocations per Iteration: 23476.12
-Max Used (Bytes / MBytes): 129790101 / 129.790101
+CPU Time: 2.24 ms
+Real Time: 2.24 ms
+Allocations per Iteration: 23548.12
+Max Used (Bytes / MBytes): 129933429 / 129.933429
 --------------------------------------------------
 
