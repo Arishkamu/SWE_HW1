@@ -611,7 +611,8 @@ TEST_CASE("DAG Shortest Paths", "[DAG]") {
         Graph_ adjacency_list = {{}};
 
         long long** adjacency_matrix = new long long*[1];
-        adjacency_matrix[0] = new long long[1]{0};
+        adjacency_matrix[0] = new long long[1];  
+        adjacency_matrix[0][0] = 0;
 
         std::vector<Edge> edge_list = {};
 
@@ -660,6 +661,7 @@ TEST_CASE("DAG Shortest Paths", "[DAG]") {
         for (int i = 0; i < 4; i++) {
             delete[] adjacency_matrix[i];
         }
+        delete[] adjacency_matrix[0];
         delete[] adjacency_matrix;
     }
 }
