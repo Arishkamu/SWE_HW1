@@ -566,3 +566,81 @@ karp_algorithm(Converter c) {
     reverse(cycle.begin(), cycle.end());
     return {minMean, cycle};
 }
+
+std::pair<std::vector<long long>, std::vector<int>> 
+dag_shortest_paths(int start, Converter converter) {
+    /*
+    * Complexity: O(n + m)
+    * Works only for Directed Acyclic Graphs (DAGs)
+    * Uses topological sorting to process vertices in the correct order.
+    */
+
+    const Graph_ & graph = converter.graph;
+    int n = graph.size();
+    assert(start >= 0 && start < n);
+
+    // safe, we do only comparisons, no arithmetic operations with INF
+    long long INF = std::numeric_limits<long long>::max();
+    std::vector<long long> dist(n, INF);
+    std::vector<int> parent(n, -1);
+    dist[start] = 0;
+
+    // Step 1: Topological Sorting (Kahn's Algorithm)
+    std::vector<int> in_degree(n, 0);
+    for (int u = 0; u < n; u++) {
+        for (const auto& [v, _] : graph[u]) {
+            in_degree[v]++;
+        }
+    }
+
+    std::queue<int> q;
+    for (int i = 0; i < n; i++) {
+        if (in_degree[i] == 0) {
+            q.push(i);
+        }
+    }
+
+    std::vector<int> topo_order;
+    while (!q.empty()) {
+        int u = q.front();
+        q.pop();
+        topo_order.push_back(u);
+
+        for (const auto& [v, _] : graph[u]) {
+            if (--in_degree[v] == 0) {
+                q.push(v);
+            }
+        }
+    }
+
+    // Step 2: Relax edges in topological order
+    for (int u : topo_order) {
+        if (dist[u] != INF) {
+            for (const auto& [v, weight] : graph[u]) {
+                if (dist[v] > dist[u] + weight) {
+                    dist[v] = dist[u] + weight;
+                    parent[v] = u;
+                }
+            }
+        }
+    }
+
+    return {dist, parent};
+}
+
+std::pair<long long, std::vector<int>> 
+dag_shortest_path(int start, int finish, Converter converter) {
+    /*
+    * Complexity: O(n + m)
+    * Returns the shortest path from start to finish in a DAG.
+    */
+
+    auto [dist, parent] = dag_shortest_paths(start, converter);
+
+    long long INF = std::numeric_limits<long long>::max();
+    if (dist[finish] == INF)
+        return {-1, std::vector<int>()};
+    
+    auto path = path_from_parent(parent, start, finish);
+    return {dist[finish], path};
+}
