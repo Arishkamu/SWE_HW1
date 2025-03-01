@@ -4,29 +4,42 @@ Spath is a static C++ library for finding the shortest paths in graphs using var
 
 ## Features
 
-- **Dijkstra's Algorithm (Low density version)**  
+- **Dijkstra's Algorithm (Low density version)**
   - Optimized for graphs with low density
-- **Dijkstra's Algorithm (High density version)**  
+- **Dijkstra's Algorithm (High density version)**
   - Optimized for graphs with high density
-- **Ford-Bellman Algorithm**  
+- **Ford-Bellman Algorithm**
   - Supports graphs with negative weight edges.
-- **Johnson's Algorithm**  
+- **Johnson's Algorithm**
   - Efficient for handling multiple queries for graphs with negative weights
-- **Floyd-Warshall Algorithm**  
+- **Floyd-Warshall Algorithm**
   - Comprehensive all-pairs shortest path solution for dense graphs.
-- **A\* Algorithm**  
+- **A\* Algorithm**
   - Optimized for pathfinding with heuristics in weighted graphs.
+- **BFS Algorithm**
+  - Guarantees finding the shortest path between two vertices in an unweighted graph.
+- **Lee Algorithm**
+  - Finding the shortest path between two vertices in a planar unweighted graph.
+- **DAG Algorithm**
+  - Finding the shortest path between two vertices in a directed acyclic graph.
+- **Naive Shortest Path Algorithm**  
+  - Exhaustive search for finding the shortest path by generating all possible paths. Suitable for small graphs due to high time complexity.
+
 
 ## Time complexity
 
-| Algorithm          | Best Use Case                         | Time Complexity            |
-|--------------------|---------------------------------------|----------------------------|
-| Dijkstra (sparse)  | Sparse graphs, non-negative weights   | O((V + E) * log V)         |
-| Dijkstra (dense)   | Dense graphs, non-negative weights    | O(V^2)                     |
-| Ford-Bellman       | Graphs with negative weights          | O(V * E)                   |
-| Johnson            | Sparse graphs, all-pairs shortest paths | O(V^2 * log V + V * E) |
-| Floyd-Warshall     | Dense graphs, all-pairs shortest paths | O(V^3)                 |
-| A*                 | Pathfinding with heuristics           | O(m*log(n)*complexity(heuristic))       |
+| Algorithm         | Best Use Case                           | Time Complexity                   |
+|-------------------|-----------------------------------------|-----------------------------------|
+| Dijkstra (sparse) | Sparse graphs, non-negative weights     | O((V + E) * log V)                |
+| Dijkstra (dense)  | Dense graphs, non-negative weights      | O(V^2)                            |
+| Ford-Bellman      | Graphs with negative weights            | O(V * E)                          |
+| Johnson           | Sparse graphs, all-pairs shortest paths | O(V^2 * log V + V * E)            |
+| Floyd-Warshall    | Dense graphs, all-pairs shortest paths  | O(V^3)                            |
+| A*                | Pathfinding with heuristics             | O(m*log(n)*complexity(heuristic)) |
+| BFS               | Unweighted graphs                       | O(V + E)                          |
+| Lee Algorithm     | Planar unweighted graphs                | O(V * E)                          |
+| DAG               | Directed acyclic graphs                 | O(V + E)                          |
+| Naive Shortest Path     | Small graphs (exhaustive search)       | O(V! * E)               |
 
 
 ## Installation
@@ -55,12 +68,12 @@ This will add our library to your system path. After that you can use it like:
 # Testing
 
 We have `tests.cpp` with included header. On each push tests from this file will be run. The tests will use Catch2 framework.
-We benchmarked our algorithms (`bench.cpp`) with help of Google Benchmark. You can see results in Github Actions. 
+We benchmarked our algorithms (`bench.cpp`) with help of Google Benchmark. You can see results in Github Actions.
 
 ## License
 
 This project is licensed under the MIT License.
-  
+
 ## How to contribute
 
 Make a fork of repository, make changes and open Pull Request.
