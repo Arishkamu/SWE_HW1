@@ -68,8 +68,6 @@ dijkstra_low_density(int start, int finish, Converter converter) {
   const Graph_ &graph = converter.graph;
   int n = graph.size();
   // start - start vertex, finish - finish vertex
-  assert(start >= 0 && start < n);
-  assert(finish >= 0 && finish < n);
 
   // safe, we do only comparisons, no arithmetic operations with INF
   long long INF = std::numeric_limits<long long>::max();
@@ -276,6 +274,10 @@ std::pair<long long, std::vector<int>> bfs(int start, int finish,
   const Graph_ &graph = converter.graph;
   std::size_t n = graph.size();
 
+  // Input validation
+  assert(start >= 0 && start < n);
+  assert(finish >= 0 && finish < n);
+
   std::queue<int> queue;
   queue.push(start);
 
@@ -412,6 +414,7 @@ naive_shortest_path(int start, int finish, Converter converter) {
     return {min_distance, best_path};
   }
 }
+
 std::vector<int> path_from_next(const std::vector<std::vector<int>> &next,
                                 int start, int finish) {
   /*
@@ -567,7 +570,7 @@ karp_algorithm(Converter c) {
     return {minMean, cycle};
 }
 
-std::pair<std::vector<long long>, std::vector<int>> 
+std::pair<std::vector<long long>, std::vector<int>>
 dag_shortest_paths(int start, Converter converter) {
     /*
     * Complexity: O(n + m)
@@ -634,7 +637,7 @@ dag_shortest_paths(int start, Converter converter) {
     return {dist, parent};
 }
 
-std::pair<long long, std::vector<int>> 
+std::pair<long long, std::vector<int>>
 dag_shortest_path(int start, int finish, Converter converter) {
     /*
     * Complexity: O(n + m)
