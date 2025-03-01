@@ -579,7 +579,6 @@ dag_shortest_paths(int start, Converter converter) {
     int n = graph.size();
     assert(start >= 0 && start < n);
 
-    // safe, we do only comparisons, no arithmetic operations with INF
     long long INF = std::numeric_limits<long long>::max();
     std::vector<long long> dist(n, INF);
     std::vector<int> parent(n, -1);
@@ -589,6 +588,9 @@ dag_shortest_paths(int start, Converter converter) {
     std::vector<int> in_degree(n, 0);
     for (int u = 0; u < n; u++) {
         for (const auto& [v, _] : graph[u]) {
+            if (v < 0 || v >= n) {
+                throw std::runtime_error("Invalid vertex index in graph");
+            }
             in_degree[v]++;
         }
     }
@@ -613,14 +615,18 @@ dag_shortest_paths(int start, Converter converter) {
         }
     }
 
+    if (topo_order.size() != n) {
+        throw std::runtime_error("Graph is not a DAG (cycle detected)");
+    }
+
     // Step 2: Relax edges in topological order
     for (int u : topo_order) {
-        if (dist[u] != INF) {
-            for (const auto& [v, weight] : graph[u]) {
-                if (dist[v] > dist[u] + weight) {
-                    dist[v] = dist[u] + weight;
-                    parent[v] = u;
-                }
+        if (dist[u] == INF) continue;
+
+        for (const auto& [v, weight] : graph[u]) {
+            if (dist[v] > dist[u] + weight) {
+                dist[v] = dist[u] + weight;
+                parent[v] = u;
             }
         }
     }
@@ -638,9 +644,19 @@ dag_shortest_path(int start, int finish, Converter converter) {
     auto [dist, parent] = dag_shortest_paths(start, converter);
 
     long long INF = std::numeric_limits<long long>::max();
-    if (dist[finish] == INF)
+    if (finish < 0 || finish >= dist.size()) {
+        throw std::runtime_error("Finish vertex out of bounds");
+    }
+
+    if (dist[finish] == INF) {
         return {-1, std::vector<int>()};
-    
-    auto path = path_from_parent(parent, start, finish);
+    }
+
+    std::vector<int> path;
+    for (int v = finish; v != -1; v = parent[v]) {
+        path.push_back(v);
+    }
+    std::reverse(path.begin(), path.end());
+
     return {dist[finish], path};
 }
