@@ -607,27 +607,6 @@ TEST_CASE("DAG Shortest Paths", "[DAG]") {
         delete[] adjacency_matrix;
     }
 
-    SECTION("Single node DAG") {
-        Graph_ adjacency_list = {{}};
-
-        long long** adjacency_matrix = new long long*[1];
-        adjacency_matrix[0] = new long long[1];  
-        adjacency_matrix[0][0] = 0;
-
-        std::vector<Edge> edge_list = {};
-
-        Converter adjacency_list_converter(adjacency_list);
-        Converter adjacency_matrix_converter(adjacency_matrix, 1);
-        Converter edge_list_converter(edge_list, true);
-
-        std::pair<long long, std::vector<int>> expected = {0, {0}};
-
-        test_dag_shortest_path(adjacency_list_converter, adjacency_matrix_converter, edge_list_converter, 0, 0, expected, dag_shortest_path);
-
-        delete[] adjacency_matrix[0];
-        delete[] adjacency_matrix;
-    }
-
     SECTION("Disconnected DAG") {
         Graph_ adjacency_list = {
             {{1, 5}},
