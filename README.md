@@ -24,22 +24,24 @@ Spath is a static C++ library for finding the shortest paths in graphs using var
   - Finding the shortest path between two vertices in a directed acyclic graph.
 - **Naive Shortest Path Algorithm**  
   - Exhaustive search for finding the shortest path by generating all possible paths. Suitable for small graphs due to high time complexity.
-
+- **Karp Algorithm**
+  - Finding the minimum mean cycle in a weighted directed graph
 
 ## Time complexity
 
-| Algorithm         | Best Use Case                           | Time Complexity                   |
-|-------------------|-----------------------------------------|-----------------------------------|
-| Dijkstra (sparse) | Sparse graphs, non-negative weights     | O((V + E) * log V)                |
-| Dijkstra (dense)  | Dense graphs, non-negative weights      | O(V^2)                            |
-| Ford-Bellman      | Graphs with negative weights            | O(V * E)                          |
-| Johnson           | Sparse graphs, all-pairs shortest paths | O(V^2 * log V + V * E)            |
-| Floyd-Warshall    | Dense graphs, all-pairs shortest paths  | O(V^3)                            |
-| A*                | Pathfinding with heuristics             | O(m*log(n)*complexity(heuristic)) |
-| BFS               | Unweighted graphs                       | O(V + E)                          |
-| Lee Algorithm     | Planar unweighted graphs                | O(V * E)                          |
-| DAG               | Directed acyclic graphs                 | O(V + E)                          |
-| Naive Shortest Path     | Small graphs (exhaustive search)       | O(V! * E)               |
+| Algorithm           | Best Use Case                           | Time Complexity                   |
+|---------------------|-----------------------------------------|-----------------------------------|
+| Dijkstra (sparse)   | Sparse graphs, non-negative weights     | O((V + E) * log V)                |
+| Dijkstra (dense)    | Dense graphs, non-negative weights      | O(V^2)                            |
+| Ford-Bellman        | Graphs with negative weights            | O(V * E)                          |
+| Johnson             | Sparse graphs, all-pairs shortest paths | O(V^2 * log V + V * E)            |
+| Floyd-Warshall      | Dense graphs, all-pairs shortest paths  | O(V^3)                            |
+| A*                  | Pathfinding with heuristics             | O(m*log(n)*complexity(heuristic)) |
+| BFS                 | Unweighted graphs                       | O(V + E)                          |
+| Lee Algorithm       | Planar unweighted graphs                | O(V * E)                          |
+| DAG                 | Directed acyclic graphs                 | O(V + E)                          |
+| Naive Shortest Path | Small graphs (exhaustive search)        | O(V * E)                          |
+| Karp Algorithm      | Graphs with negative weights            | O(V * E)                          |
 
 
 ## Installation
