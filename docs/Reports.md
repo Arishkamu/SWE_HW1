@@ -27,6 +27,13 @@ Ran with taskset -c 0 to attach our executable to a single core and avoid contex
 ```
 taskset -c 0 ./Bench --benchmark_format=json > bench_result.json
 ``` 
+## Overall information
+* Dijkstra is effective for graphs with height density, even when number of vertex is rising.
+* Belman-Ford is slower dramatically (up to several seconds), especially for big graphs
+* Floyd-Warshall has stable time of work, but take more memory than anticipated
+* BFS and Lee algorithm work extremely fast in comparison with other algorithms, so they can be the best choose for 
+not oriented / no wight graphs
+
 ## Ubuntu jammy
 ```
 Benchmark Report
