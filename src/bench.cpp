@@ -278,6 +278,23 @@ static void BM_dag_shortest_path(benchmark::State& state) {
     state.counters["Edges"] = num_edges;
 }
 
+static void BM_karp_algorithm(benchmark::State& state) {
+    int num_nodes = state.range(0);
+    int num_edges = state.range(1);
+    int min_weight = state.range(2);
+    int max_weight = state.range(3);
+
+    Graph_ graph = generate_random_graph(num_nodes, num_edges, min_weight, max_weight);
+    Converter converter(graph);
+
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(karp_algorithm(converter));
+    }
+
+    state.counters["Nodes"] = num_nodes;
+    state.counters["Edges"] = num_edges;
+}
+
 BENCHMARK(BM_Dijkstra_high_density)
     ->Args({100, 500, 1, 100})    // 100 vertexes, 500 edges, weight up to 100
     ->Args({1000, 10000, 1, 100}) // 1000 vertexes, 10K edges, weight up to 100
@@ -340,6 +357,13 @@ BENCHMARK(BM_dag_shortest_path)
     ->Args({1000, 10000, 1, 100})
     ->Args({5000, 50000, 1, 100})
     ->Args({10000, 400000, 1, 100})
+    ->Unit(benchmark::kMillisecond);
+
+BENCHMARK(BM_karp_algorithm)
+    ->Args({100, 500, -150, 100}) // 100 vertexes, 500 edges, weight up to 100
+    ->Args({1000, 10000, -150,
+            100}) // 1000 vertexes, 10K edges, weight up to 100
+    ->Args({5000, 50000, -150, 100}) // 5K vertexes, 50K edges, weight up to 100
     ->Unit(benchmark::kMillisecond);
 
 int main(int argc, char** argv)

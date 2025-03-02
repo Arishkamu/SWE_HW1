@@ -67,7 +67,7 @@ std::pair<long long, std::vector<int>>
 naive_shortest_path(int start, int finish, Converter c);
 
 std::pair<double, std::vector<int>>
-karp_algorithm(Converter c);
+karp_algorithm(const Converter& c);
 
 std::pair<std::vector<long long>, std::vector<int>> 
 dag_shortest_paths(int start, Converter c);

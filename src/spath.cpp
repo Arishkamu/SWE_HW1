@@ -485,7 +485,7 @@ std::vector<std::pair<int, int>> lee_algorithm(int start, int finish,
 }
 
 std::pair<double, std::vector<int>>
-karp_algorithm(Converter c) {
+karp_algorithm(const Converter& c) {
     /*
      * algorithm used to find minimal average wight cycle
      * Complexity worst case: O(VE)
@@ -556,11 +556,21 @@ karp_algorithm(Converter c) {
 
     // Reconstruct the cycle path
     std::vector<int> cycle;
-    cycle.push_back(cycleVertex);  // Start the cycle
+    std::vector<int> visited(n, 0);
+
+    // Find Vertex inside the cycle
+    int current = cycleVertex;
+    while (current != -1 && !visited[current]) {
+        visited[current] = true;
+        current = parent[current][n];
+    }
+
+    int startVertex = current;
+    cycle.push_back(startVertex);  // Start the cycle
 
     // Follow the cycle until we reach the starting vertex again
-    int current = parent[cycleVertex][n];
-    while (current != cycleVertex && current != -1) {
+    current = parent[startVertex][n];
+    while (current != startVertex && current != -1) {
         cycle.push_back(current);
         current = parent[current][n];
     }
